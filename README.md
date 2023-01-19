@@ -23,3 +23,8 @@ Download the latest version [here](https://www.python.org/downloads/)
 Then open Command Prompt, type `python -m pip install discord` and hit enter. 
 
 Finally open explorer and double-click `bot.py`. Now the bot is running!
+
+#### Note
+
+The bot uses the tagesschau API, which means all news are posted in GERMAN language.
+If you don't speak german, then this is not the right bot for you.
