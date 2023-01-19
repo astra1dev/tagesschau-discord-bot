@@ -54,13 +54,12 @@ async def newsfeed():
     URL = r["shareURL"]
     firstSentence = r["firstSentence"]
     thumbnail = r["teaserImage"]["mittelgross1x1"]["imageurl"]
-  except KeyError:
-    URL = None
-    firstSentence = None
-  embed = discord.Embed(title=title, url=URL, description=firstSentence, 
+    embed = discord.Embed(title=title, url=URL, description=firstSentence, 
                         colour=discord.Colour.blue())
-  embed.set_image(url=thumbnail)
-  await feedchannel.send(embed=embed)
+    embed.set_image(url=thumbnail)
+    await feedchannel.send(embed=embed)
+  except KeyError:
+    pass
 
 
 bot.run(TOKEN)
