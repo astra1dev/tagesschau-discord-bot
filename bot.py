@@ -50,10 +50,10 @@ async def newsfeed():
   r = requests.get("https://www.tagesschau.de/api2/news/")
   r = r.json()["news"][0]
   title = r["title"]
-  thumbnail = r["teaserImage"]["mittelgross1x1"]["imageurl"]
   try:
     URL = r["shareURL"]
     firstSentence = r["firstSentence"]
+    thumbnail = r["teaserImage"]["mittelgross1x1"]["imageurl"]
   except KeyError:
     URL = None
     firstSentence = None
