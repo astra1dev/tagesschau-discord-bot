@@ -32,12 +32,16 @@ async def news(ctx):
   r = requests.get("https://www.tagesschau.de/api2/news/")
   r = r.json()["news"][0]
   title = r["title"]
-  thumbnail = r["teaserImage"]["mittelgross1x1"]["imageurl"]
-  URL = r["shareURL"]
-  firstSentence = r["firstSentence"]
-  embed = discord.Embed(title=title, url=URL, description=firstSentence, colour=discord.Colour.blue())
-  embed.set_image(url=thumbnail)
-  await ctx.send(embed=embed)
+  try:
+    thumbnail = r["teaserImage"]["mittelgross1x1"]["imageurl"]
+    URL = r["shareURL"]
+    firstSentence = r["firstSentence"]
+    embed = discord.Embed(title=title, url=URL, description=firstSentence,   
+                          colour=discord.Colour.blue())
+    embed.set_image(url=thumbnail)
+    await ctx.send(embed=embed)
+  except KeyError:
+    await ctx.send("Error sending news")
 
 @bot.command()
 async def help(ctx):
