@@ -1,5 +1,7 @@
-# DC-tagesschau-Bot
-discord bot using tagesschau API to get the latest news
+<p align="center">
+  <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg?style=plastic&logo=python&color=3c7cae&labelColor=ffd841&logoColor=3c7cae">
+  <img src="https://img.shields.io/badge/version-1.0.-blue.svg?style=plastic&logo=GitHub&color=ff5500&label=Version">
+</p>
 
 ## How to run
 
