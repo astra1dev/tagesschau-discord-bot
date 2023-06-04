@@ -5,6 +5,8 @@
   <img src="https://img.shields.io/badge/discord.py-blue.svg?style=plastic&logo=Discord&color=000000&label=Using">
 </p>
 
+The code might not be working due to API changes and a missing official documentation for the API.
+
 ## How to run
 
 First, download the `bot.py` file or clone the entire repository.
