@@ -113,7 +113,6 @@ async def news(interaction: discord.Interaction) -> None:
 
   last_news = r
   title = r["title"]
-  thumbnail = r["teaserImage"]["imageVariants"]["1x1-840"]
   try:
     url = r["shareURL"]
   except KeyError:
@@ -122,7 +121,9 @@ async def news(interaction: discord.Interaction) -> None:
     first_sentence = r["firstSentence"]
   except KeyError:
     first_sentence = ""
-  embed = discord.Embed(title=title, url=url, description=first_sentence,
+  thumbnail = r["teaserImage"]["imageVariants"]["1x1-840"]
+  tags = [f"#{i['tag']}" for i in r["tags"]]
+  embed = discord.Embed(title=title, url=url, description=f"{first_sentence}\n\nTags: {' '.join(tags)}",
                         colour=discord.Colour.blue())
   embed.set_image(url=thumbnail)
   embed.set_footer(text=f"Last update: {datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d, %H:%M:%S")}",
