@@ -20,9 +20,10 @@ NEWS_CHANNEL_ID = int(os.getenv("NEWS_CHANNEL_ID"))
 TIME_TO_CHECK = float(os.getenv("TIME_TO_CHECK"))
 
 # Create bot and set up news api
-bot = commands.Bot(command_prefix=None, intents=discord.Intents.all(), help_command=None)
+bot = commands.Bot(command_prefix="t!", intents=discord.Intents.all(), help_command=None)
 news_api = "https://tagesschau.de/api2u/news/"
 last_news = None  # prevent the bot from sending the same news multiple times
+news_fetched = 0  # count the number of news fetched
 
 # for uptime calculation
 start_time = time.time()
@@ -67,6 +68,8 @@ async def info(interaction: discord.Interaction) -> None:
     :param interaction: The discord interaction object
     :return: None
     """
+    global news_fetched
+
     # Calculate uptime
     uptime_seconds = time.time() - start_time
     days, remainder = divmod(uptime_seconds, 86400)
@@ -91,7 +94,8 @@ async def info(interaction: discord.Interaction) -> None:
     ram_usage = ram.percent
 
     embed = discord.Embed(title=":pencil: Bot Information", colour=discord.Colour(0x00ff00),
-                          timestamp=datetime.datetime.now(datetime.UTC))
+                          timestamp=datetime.datetime.now(datetime.UTC),
+                          url="https://github.com/astra1dev/tagesschau-discord-bot")
     embed.add_field(name="⏱️ Latency", value=f"{str(round(bot.latency * 1000))}ms")
     embed.add_field(name="🌍 Servers", value=f"{str(len(bot.guilds))}")
     embed.add_field(name="👥 Users", value=f"{str(len([member for guild in bot.guilds for member in guild.members]))}")
@@ -101,6 +105,7 @@ async def info(interaction: discord.Interaction) -> None:
     embed.add_field(name="💻 CPU Usage", value=f"{cpu_usage}%")
     embed.add_field(name="💻 RAM Usage", value=f"{ram_usage}% ({ram_used:.2f} GB / {ram_total:.2f} GB)")
     embed.add_field(name="⚙️ Shards", value=f"{shard_id} / {bot.shard_count}")
+    embed.add_field(name="📰 News fetched", value=f"{news_fetched}")
     embed.set_footer(text="created by Astral",
                      icon_url="https://cdn.discordapp.com/avatars/951884381209890877"
                               "/ad9abec491fb314fc796b14d6f2edf83.png")
@@ -113,6 +118,7 @@ async def get_news() -> discord.Embed or None:
     :return: None or discord.Embed
     """
     global last_news
+    global news_fetched
     r = requests.get(news_api)
     r = r.json()["news"][0]
 
@@ -137,6 +143,7 @@ async def get_news() -> discord.Embed or None:
     embed.set_footer(text=f"Last update: {datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%d, %H:%M:%S')}",
                      icon_url="https://cdn.discordapp.com/avatars/1284859085967069366"
                               "/75bd7fbf552aceaa9bebfef4433840f4")
+    news_fetched += 1
     return embed
 
 
